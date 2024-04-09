@@ -1,3 +1,5 @@
+using workshop.wwwapi.EndPoints;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -14,31 +16,48 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Add this for minimal API - this adds a root
+//app.MapGet("/hello", () => {
+//    return "hello";
+//});
+
+//app.MapGet("/hi/{name}", (string name) =>
+//{
+//    return $"hi {name}";
+//});
+
+//app.MapGet("/hello/{firstname}", (string firstname, int age) =>
+//{
+//    return age < 40 ? $"hi {firstname}" : $"hi {firstname}... you are ancient";
+//});
+
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+//var summaries = new[]
+//{
+//    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+//};
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+//app.MapGet("/weatherforecast", () =>
+//{
+//    var forecast =  Enumerable.Range(1, 5).Select(index =>
+//        new WeatherForecast
+//        (
+//            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+//            Random.Shared.Next(-20, 55),
+//            summaries[Random.Shared.Next(summaries.Length)]
+//        ))
+//        .ToArray();
+//    return forecast;
+//})
+//.WithName("GetWeatherForecast")
+//.WithOpenApi();
+
+app.ConfigureCarApi();
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+//record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+//{
+//    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+//}
